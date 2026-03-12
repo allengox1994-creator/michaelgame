@@ -1,1746 +1,439 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>BC 娱乐 — 首页线框图 v2</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Michael Game</title>
+  <meta name="description" content="Michael Game is a simple online mini game platform with casual games, quick play access, and account-based features." />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --bg: #0f172a;
+      --card: rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.14);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --primary: #38bdf8;
+      --accent: #22c55e;
+      --warning: #f59e0b;
+    }
+
+    * { box-sizing: border-box; }
     body {
-      background: #111;
-      color: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 14px;
-      max-width: 420px;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(34,197,94,0.14), transparent 24%),
+        linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
-      padding-bottom: 60px;
     }
 
-    /* ── 区块标注（线框用）── */
-    .zone-label {
-      font-size: 9px; color: #d4af37;
-      padding: 2px 10px;
-      letter-spacing: .5px;
-      opacity: .6;
+    header {
+      padding: 20px 0;
     }
 
-    /* ═══════════════════════════════
-       ① Header
-    ═══════════════════════════════ */
-    .bc-header {
-      position: sticky; top: 0; z-index: 90;
-      display: flex; align-items: center; height: 48px;
-      padding: 0 12px; background: #0d0d0d;
-      border-bottom: 1px solid #1e1e1e;
-    }
-    .hd-close { width: 28px; font-size: 18px; color: #444; cursor: pointer; }
-
-    /* 语言选择器 */
-    .lang-btn {
-      display: flex; align-items: center; gap: 4px;
-      padding: 4px 8px; border-radius: 6px;
-      background: #1e1e1e; border: 1px solid #2a2a2a;
-      cursor: pointer; user-select: none;
-    }
-    .lang-btn i { font-size: 14px; color: #888; }
-    .lang-btn span { font-size: 12px; color: #ccc; }
-    .lang-btn .arrow { font-size: 10px; color: #555; transition: transform .2s; }
-    .lang-btn.open .arrow { transform: rotate(180deg); }
-
-    .lang-dropdown {
-      display: none; position: absolute;
-      top: 52px; left: 12px;
-      background: #1e1e1e; border: 1px solid #2a2a2a;
-      border-radius: 8px; overflow: hidden;
-      z-index: 200; min-width: 120px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.5);
-    }
-    .lang-dropdown.show { display: block; }
-    .lang-option {
-      display: flex; align-items: center; gap: 8px;
-      padding: 11px 14px; font-size: 13px; color: #aaa;
-      cursor: pointer; transition: background .15s;
-    }
-    .lang-option:hover { background: #252525; }
-    .lang-option.active { color: #d4af37; }
-    .lang-option .check { font-size: 12px; color: #d4af37; margin-left: auto; }
-    .hd-center {
-      position: absolute; left: 50%; transform: translateX(-50%);
-      text-align: center; pointer-events: none;
-    }
-    .hd-logo  { font-size: 15px; font-weight: 700; color: #fff; }
-    .hd-url   { font-size: 10px; color: #444; display: block; }
-    .hd-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-    .btn-dl   { padding: 5px 10px; font-size: 11px; color: #fff; background: #e63946; border: none; border-radius: 5px; cursor: pointer; }
-    .btn-search { font-size: 12px; color: #555; cursor: pointer; }
-
-    /* ═══════════════════════════════
-       ② Banner 轮播
-    ═══════════════════════════════ */
-    .bc-banner-wrap {
-      margin: 4px 10px 0;
-      border-radius: 10px; overflow: hidden;
-      position: relative; cursor: grab; user-select: none;
-      touch-action: none;
-    }
-    .bc-banner-wrap:active { cursor: grabbing; }
-    .banner-track {
+    .nav {
       display: flex;
-      transition: transform .4s cubic-bezier(.4,0,.2,1);
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
     }
-    .banner-slide {
-      flex: 0 0 100%; height: 84px;
-      display: flex; align-items: center; padding: 0 16px;
-      position: relative; overflow: hidden;
-    }
-    .banner-slide:nth-child(1) { background: linear-gradient(130deg,#1a0505 0%,#7a0000 45%,#c41e3a 100%); border: 1px solid #6b1020; }
-    .banner-slide:nth-child(2) { background: linear-gradient(130deg,#0a1628 0%,#0d3068 50%,#1a5fd4 100%); border: 1px solid #103060; }
-    .banner-slide:nth-child(3) { background: linear-gradient(130deg,#0d1a08 0%,#1a4d0a 50%,#2e8b1a 100%); border: 1px solid #1a4d0a; }
-    .banner-slide::after {
-      content: ''; position: absolute; right: -20px; top: -20px;
-      width: 110px; height: 110px; border-radius: 50%;
-      background: rgba(255,255,255,.04);
-    }
-    .banner-text .l1 { font-size: 16px; font-weight: 700; color: #ffd700; }
-    .banner-text .l2 { font-size: 12px; color: #ffb84d; margin-top: 4px; }
-    .banner-text .l3 { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 4px; }
-    .banner-dots {
-      position: absolute; bottom: 8px; left: 50%;
-      transform: translateX(-50%);
-      display: flex; gap: 4px;
-    }
-    .dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,.3); transition: all .3s; cursor: pointer; }
-    .dot.on { background: #ffd700; width: 14px; border-radius: 3px; }
 
-    /* ═══════════════════════════════
-       ③ 公告
-    ═══════════════════════════════ */
-    .bc-notice {
-      display: flex; align-items: center;
-      margin: 5px 10px 0; height: 30px; padding: 0 10px;
-      background: #1a1a1a; border-radius: 6px;
-    }
-    .n-icon { font-size: 14px; margin-right: 6px; flex-shrink: 0; }
-    .n-text { flex: 1; font-size: 11px; color: #777; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .n-msg  { position: relative; margin-left: 8px; font-size: 16px; cursor: pointer; flex-shrink: 0; }
-    .n-badge { position: absolute; top: -5px; right: -6px; min-width: 15px; height: 15px; line-height: 15px; padding: 0 3px; font-size: 9px; text-align: center; color: #fff; background: #e63946; border-radius: 8px; }
-
-    /* ═══════════════════════════════
-       ④ 登录/注册 + 服务入口（同一行）
-    ═══════════════════════════════ */
-    .bc-auth-row {
-      display: flex; align-items: center;
-      gap: 8px; padding: 10px 12px 0;
-    }
-    .btn-login {
-      flex: 0 0 68px; height: 36px; border: 1px solid #444;
-      border-radius: 8px; font-size: 14px; cursor: pointer;
-      background: transparent; color: #ccc;
-    }
-    .btn-register {
-      width: 100%; height: 36px; border: none;
-      border-radius: 8px; font-size: 14px; cursor: pointer;
-      background: linear-gradient(135deg,#e63946,#c0152a); color: #fff; font-weight: 700;
-      box-shadow: 0 2px 8px rgba(230,57,70,.4);
-    }
-    .btn-register-wrap {
-      flex: 0 0 68px; position: relative;
-    }
-    .promo-badge {
-      position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
-      display: inline-flex; align-items: center; gap: 2px; white-space: nowrap;
-      background: linear-gradient(90deg, #c8960c, #f5d87a, #c8960c);
-      background-size: 200% auto;
-      color: #3a2800; font-size: 9px; font-weight: 900;
-      padding: 2px 6px; border-radius: 3px; line-height: 1.4;
-      animation: promoShine 2.4s linear infinite, promoPop .3s ease;
-    }
-    .promo-badge i { font-size: 9px; }
-    @keyframes promoShine {
-      0%   { background-position: 0% center; }
-      100% { background-position: 200% center; }
-    }
-    @keyframes promoPop {
-      0%   { transform: translateX(-50%) scale(.7); opacity: 0; }
-      80%  { transform: translateX(-50%) scale(1.08); }
-      100% { transform: translateX(-50%) scale(1); opacity: 1; }
-    }
-    .svc-row { flex: 1; display: flex; justify-content: space-around; }
-    .svc-item { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; }
-    .svc-icon {
-      width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 10px;
-      background: linear-gradient(145deg,#242424,#1a1a1a);
-      border: 1px solid #2a2a2a;
-    }
-    .svc-icon i { font-size: 18px; color: #bbb; }
-    .svc-label { font-size: 10px; color: #555; }
-
-    /* ═══════════════════════════════
-       ⑤ 功能模块 — 4 列图标式磁贴
-    ═══════════════════════════════ */
-    .bc-modules {
-      display: grid; grid-template-columns: repeat(4,1fr);
-      gap: 6px; padding: 8px 12px 0;
-    }
-    .mod-item {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 3px; padding: 6px 4px 5px;
-      border-radius: 10px; cursor: pointer;
-      background: #161616; border: 1px solid #222;
-      position: relative; overflow: hidden;
-    }
-    .mod-item::before {
-      content: ''; position: absolute; inset: 0;
-      background: var(--mod-glow); opacity: .12; pointer-events: none;
-    }
-    .mod-item.promo  { --mod-glow: linear-gradient(135deg,#f0c040,transparent); border-color: rgba(240,192,64,.45); }
-    .mod-item.sports { --mod-glow: linear-gradient(135deg,#d4af37,transparent); border-color: rgba(212,175,55,.40); }
-    .mod-item.agent  { --mod-glow: linear-gradient(135deg,#c8961e,transparent); border-color: rgba(200,150,30,.35); }
-    .mod-item.pay    { --mod-glow: linear-gradient(135deg,#b8860b,transparent); border-color: rgba(184,134,11,.35); }
-    .mod-ico {
-      width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 10px; background: rgba(212,175,55,.08);
-    }
-    .mod-ico svg { width: 26px; height: 26px; overflow: visible; }
-
-    /* ── 骰子：滚动翻转 ── */
-    @keyframes diceRoll {
-      0%,60%,100% { transform: rotate(0deg) scale(1); }
-      20%         { transform: rotate(-20deg) scale(1.08); }
-      40%         { transform: rotate(18deg) scale(1.05); }
-    }
-    @keyframes diceDot {
-      0%,55%,100% { opacity: 1; }
-      30%         { opacity: 0; }
-    }
-    .dice-body { animation: diceRoll 2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-    .dice-dot  { animation: diceDot 2s ease-in-out infinite; }
-
-    /* ── 足球：旋转滚动 ── */
-    @keyframes ballSpin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-    @keyframes ballBounce {
-      0%,100% { transform: translateY(0) rotate(0deg); }
-      30%     { transform: translateY(-5px) rotate(120deg); }
-      60%     { transform: translateY(1px) rotate(260deg); }
-    }
-    .ball-spin { animation: ballBounce 2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-
-    /* ── 团队：涟漪扩散 ── */
-    @keyframes ripple {
-      0%   { r: 6; opacity: .8; }
-      100% { r: 14; opacity: 0; }
-    }
-    .team-ripple { animation: ripple 1.8s ease-out infinite; }
-
-    /* ── 硬币：弹入钱包 ── */
-    @keyframes coinDrop {
-      0%,100% { transform: translateY(-8px); opacity: 0; }
-      30%,70% { transform: translateY(0);    opacity: 1; }
-      85%     { transform: translateY(2px);  opacity: .4; }
-    }
-    .wallet-coin { animation: coinDrop 2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-    .mod-name { font-size: 11px; color: #d4af37; white-space: nowrap; font-weight: 600; }
-    .mod-sub  { font-size: 9px;  color: #7a6820; white-space: nowrap; }
-
-    /* ═══════════════════════════════
-       「更多」全功能弹窗
-    ═══════════════════════════════ */
-    .more-mask {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,.75); z-index: 200;
-      align-items: flex-end;
-      backdrop-filter: blur(2px);
-    }
-    .more-mask.show { display: flex; }
-    .more-panel {
-      width: 100%; background: #161616;
-      border-radius: 18px 18px 0 0;
-      padding-bottom: env(safe-area-inset-bottom,16px);
-      max-height: 78vh; overflow-y: auto;
-      animation: slideUp .25s ease;
-    }
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to   { transform: translateY(0); }
-    }
-    .more-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 16px 4px;
-      border-bottom: 1px solid #222;
-    }
-    .more-header-title { font-size: 15px; color: #e0e0e0; font-weight: 600; }
-    .more-close {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: #2a2a2a; border: none; color: #888;
-      font-size: 16px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      line-height: 1;
-    }
-    .more-section-title {
-      font-size: 11px; color: #444; padding: 10px 16px 2px;
-      letter-spacing: .5px; text-transform: uppercase;
-    }
-    .more-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr);
-      padding: 4px 6px;
-    }
-    .more-item {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 5px; padding: 10px 2px 8px;
-      cursor: pointer; position: relative;
-      border-radius: 8px; transition: background .15s;
-    }
-    .more-item:active { background: #222; }
-    .more-icon {
-      width: 44px; height: 44px;
-      display: flex; align-items: center; justify-content: center;
-      background: #1e1e1e; border-radius: 12px; border: 1px solid #282828;
-    }
-    .more-icon i { font-size: 22px; color: #c8c8c8; }
-    .more-label { font-size: 11px; color: #999; white-space: nowrap; }
-    .more-badge {
-      position: absolute; top: 6px; right: calc(50% - 26px);
-      font-size: 9px; background: #e63946; color: #fff;
-      padding: 1px 5px; border-radius: 8px; font-weight: 700;
-      white-space: nowrap;
-    }
-    .more-badge.gold { background: linear-gradient(90deg,#d4af37,#f0c040); color: #111; }
-
-    /* ═══════════════════════════════
-       ⑥ 主分类横滑
-    ═══════════════════════════════ */
-    .bc-main-cat { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 6px 0 4px; }
-    .bc-main-cat::-webkit-scrollbar { display: none; }
-    .main-cat-inner { display: flex; gap: 4px; padding: 0 10px; min-width: max-content; }
-    .m-cat {
-      padding: 6px 14px; border-radius: 20px;
-      font-size: 13px; color: #777; cursor: pointer; white-space: nowrap;
-      border: 1px solid transparent;
-    }
-    .m-cat.active { color: #e63946; border-color: rgba(230,57,70,.4); background: rgba(230,57,70,.1); }
-
-    /* ═══════════════════════════════
-       ⑦ 子分类 Tag
-    ═══════════════════════════════ */
-    .bc-sub-cat { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 4px 0 8px; }
-    .bc-sub-cat::-webkit-scrollbar { display: none; }
-    .sub-inner { display: flex; gap: 6px; padding: 0 10px; min-width: max-content; }
-    .s-tag {
-      padding: 5px 12px; border-radius: 6px;
-      font-size: 12px; color: #888; background: #1a1a1a;
-      border: 1px solid #252525; cursor: pointer; white-space: nowrap;
-    }
-    .s-tag.active { color: #e63946; border-color: rgba(230,57,70,.5); background: rgba(230,57,70,.08); }
-
-    /* ═══════════════════════════════
-       ⑧ 纯视频网格
-    ═══════════════════════════════ */
-    .bc-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 8px; padding: 0 10px;
-    }
-    .v-card { background: #1a1a1a; border-radius: 8px; overflow: hidden; cursor: pointer; border: 1px solid #222; }
-    .v-thumb {
-      aspect-ratio: 16/9; position: relative;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-    }
-    /* 封面图 */
-    .v-thumb-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background: var(--thumb-bg);
-      background-image: url('../shipin/fengmian.jpg');
-      background-size: cover; background-position: center;
-    }
-    .v-thumb-overlay {
-      position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.55) 100%);
-    }
-    .v-play { z-index: 2; }
-    .v-dur  { z-index: 2; }
-    .v-play {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(0,0,0,.45);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .v-play i { font-size: 18px; color: rgba(255,255,255,.85); margin-left: 2px; }
-    .v-dur  { position: absolute; bottom: 5px; right: 5px; font-size: 10px; color: #fff; background: rgba(0,0,0,.65); padding: 1px 5px; border-radius: 3px; letter-spacing: .3px; }
-    .v-info { padding: 7px 8px 8px; display: flex; flex-direction: column; }
-    .v-title {
-      font-size: 12px; color: #ddd; line-height: 1.5;
-      height: calc(12px * 1.5 * 2);   /* 固定两行高，对齐底部 */
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-      margin-bottom: 5px;
-    }
-    .v-meta  { display: flex; gap: 6px; font-size: 10px; color: #555; align-items: center; }
-    .v-meta i { font-size: 11px; }
-
-    /* ═══════════════════════════════
-       我的页面
-    ═══════════════════════════════ */
-    #page-profile.active {
-      position: fixed; top: 48px; left: 0; right: 0; bottom: 52px;
-      max-width: 420px; margin: 0 auto;
-      overflow-y: auto; -webkit-overflow-scrolling: touch;
-      background: #0a0a0a; z-index: 50;
-    }
-    #page-profile::-webkit-scrollbar { display: none; }
-
-    /* VIP 进度条区 */
-    .pm-vip-bar {
-      margin: 12px 12px 0;
-      background: linear-gradient(135deg, #1c1400, #2a1e00);
-      border: 1px solid rgba(212,175,55,.25);
-      border-radius: 14px; padding: 10px 14px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .pm-vip-badge {
-      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, #d4af37, #8a6a00);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      font-size: 7px; font-weight: 900; color: #fff; line-height: 1.2;
-      box-shadow: 0 0 10px rgba(212,175,55,.4);
-    }
-    .pm-vip-badge b { font-size: 11px; }
-    .pm-vip-info { flex: 1; }
-    .pm-vip-title { font-size: 12px; color: #e8c84a; font-weight: 700; margin-bottom: 4px; }
-    .pm-vip-title span { color: #fff; }
-    .pm-vip-progress {
-      height: 5px; background: rgba(255,255,255,.1); border-radius: 3px; overflow: hidden;
-    }
-    .pm-vip-fill {
-      height: 100%; width: 3%;
-      background: linear-gradient(90deg, #d4af37, #f5d87a);
-      border-radius: 3px;
-    }
-    .pm-vip-sub { font-size: 10px; color: #776520; margin-top: 3px; }
-    .pm-vip-arrow { color: #d4af37; font-size: 18px; flex-shrink: 0; }
-
-    /* 用户信息卡 */
-    .pm-user-card {
-      margin: 10px 12px 0;
-      background: #141414; border: 1px solid #222;
-      border-radius: 14px; padding: 14px;
-    }
-    .pm-user-top { display: flex; align-items: center; gap: 10px; }
-    .pm-avatar {
-      width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, #2a1a3a, #3d2a55);
-      border: 2px solid rgba(212,175,55,.4);
-      display: flex; align-items: center; justify-content: center;
+    .brand {
       font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
     }
-    .pm-user-info { flex: 1; }
-    .pm-username {
-      font-size: 15px; font-weight: 700; color: #fff;
-      display: flex; align-items: center; gap: 5px;
-    }
-    .pm-username i { font-size: 13px; color: #555; cursor: pointer; }
-    .pm-uid { font-size: 11px; color: #555; margin-top: 2px;
-      display: flex; align-items: center; gap: 4px; }
-    .pm-uid i { font-size: 11px; cursor: pointer; }
-    .pm-balance-row {
-      margin-top: 12px; display: flex; align-items: center;
-      background: #0e0e0e; border-radius: 10px; padding: 10px 12px;
-      gap: 8px;
-    }
-    .pm-balance-icon { font-size: 18px; color: #d4af37; }
-    .pm-balance-main { flex: 1; }
-    .pm-balance-label { font-size: 10px; color: #555; }
-    .pm-balance-num { font-size: 20px; font-weight: 900; color: #fff; line-height: 1.2; }
-    .pm-balance-refresh {
-      width: 30px; height: 30px; border-radius: 50%;
-      background: #1e1e1e; border: 1px solid #2a2a2a;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-    }
-    .pm-balance-refresh i { font-size: 14px; color: #666; }
 
-    /* 快捷操作 */
-    .pm-quick {
-      margin: 10px 12px 0;
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    .brand span { color: var(--primary); }
+
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 18px;
+      font-size: 14px;
     }
-    .pm-quick-item {
-      background: #141414; border: 1px solid #222; border-radius: 12px;
-      padding: 10px 4px 8px; display: flex; flex-direction: column;
-      align-items: center; gap: 5px; cursor: pointer; position: relative;
-      transition: border-color .15s;
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+      padding: 48px 0 36px;
     }
-    .pm-quick-item:active { border-color: rgba(212,175,55,.4); }
-    .pm-quick-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(56,189,248,0.12);
+      color: #7dd3fc;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      border: 1px solid rgba(56,189,248,0.22);
+    }
+
+    h1 {
+      font-size: clamp(36px, 5vw, 62px);
+      line-height: 1.05;
+      margin: 0 0 18px;
+    }
+
+    .hero p {
+      color: var(--muted);
       font-size: 18px;
-    }
-    .pm-quick-label { font-size: 11px; color: #aaa; }
-    .pm-quick-tag {
-      position: absolute; top: -4px; right: 4px;
-      background: linear-gradient(90deg, #e63946, #ff6b6b);
-      color: #fff; font-size: 8px; font-weight: 800;
-      padding: 1px 4px; border-radius: 4px; line-height: 1.4;
-    }
-    .pm-quick-tag.gold {
-      background: linear-gradient(90deg, #c8960c, #f5d87a);
-      color: #3a2800;
+      margin: 0 0 26px;
+      max-width: 640px;
     }
 
-    /* 促销横幅 */
-    .pm-promo-banner {
-      margin: 10px 12px 0;
-      background: linear-gradient(90deg, #0d1a2e, #162540);
-      border: 1px solid rgba(59,130,246,.3);
-      border-radius: 10px; padding: 9px 12px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .pm-promo-banner i { font-size: 16px; color: #60a5fa; flex-shrink: 0; }
-    .pm-promo-text { flex: 1; font-size: 11px; color: #93c5fd; line-height: 1.5; }
-    .pm-promo-text b { color: #fcd34d; }
-    .pm-promo-btn {
-      background: #3b82f6; color: #fff; font-size: 11px; font-weight: 700;
-      border: none; border-radius: 6px; padding: 5px 10px; cursor: pointer; flex-shrink: 0;
+    .actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
     }
 
-    /* 菜单列表 */
-    .pm-section-title {
-      font-size: 11px; color: #444; padding: 12px 14px 5px;
-      text-transform: uppercase; letter-spacing: .5px;
-    }
-    .pm-menu {
-      margin: 0 12px; background: #141414;
-      border: 1px solid #1e1e1e; border-radius: 14px; overflow: hidden;
-    }
-    .pm-menu-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 13px 14px; cursor: pointer;
-      border-bottom: 1px solid #1a1a1a;
-      transition: background .12s;
-    }
-    .pm-menu-item:last-child { border-bottom: none; }
-    .pm-menu-item:active { background: #1a1a1a; }
-    .pm-menu-icon {
-      width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 16px;
-    }
-    .pm-menu-body { flex: 1; }
-    .pm-menu-name { font-size: 14px; color: #ddd; }
-    .pm-menu-desc { font-size: 11px; color: #555; margin-top: 1px; }
-    .pm-menu-right { display: flex; align-items: center; gap: 4px; }
-    .pm-menu-value { font-size: 11px; color: #666; }
-    .pm-menu-value.hot { color: #f59e0b; }
-    .pm-menu-value.green { color: #22c55e; }
-    .pm-menu-arrow { font-size: 16px; color: #333; }
-
-    /* 退出按钮 */
-    .pm-logout {
-      margin: 12px 12px 20px;
-      background: #141414; border: 1px solid #1e1e1e;
-      border-radius: 14px; padding: 14px;
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; cursor: pointer; transition: background .12s;
-    }
-    .pm-logout:active { background: #1e1e1e; }
-    .pm-logout i { font-size: 16px; color: #e63946; }
-    .pm-logout span { font-size: 14px; color: #e63946; font-weight: 600; }
-
-    /* ═══════════════════════════════
-       底部 Tabbar
-    ═══════════════════════════════ */
-    .bc-tabbar {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      max-width: 420px; margin: 0 auto;
-      height: 52px; background: #0d0d0d;
-      border-top: 1px solid #1e1e1e;
-      display: flex; z-index: 100;
-    }
-    .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font-size: 9px; color: #555; cursor: pointer; }
-    .tab-item.active { color: #d4af37; }
-    .tab-icon { font-size: 20px; line-height: 1; display: flex; align-items: center; justify-content: center; }
-    .tab-icon svg { display: block; }
-
-    /* 分割线 */
-    .divider {
-      height: 1px; background: #1e1e1e;
-      margin: 6px 10px 0;
+    .btn {
+      display: inline-block;
+      padding: 13px 18px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      transition: 0.2s ease;
     }
 
-    /* ═══════════════════════════════
-       多 Tab 页面系统
-    ═══════════════════════════════ */
-    body { overflow-x: hidden; }
-    .bc-page { display: none; }
-    .bc-page.active { display: block; }
-
-    /* 非首页顶栏 */
-    #headerOther {
-      display: none; justify-content: center; align-items: center;
-      position: relative;
-    }
-    #headerOther.active { display: flex; }
-    .other-title { font-size: 16px; font-weight: 700; color: #fff; }
-    .gh-header-count {
-      position: absolute; right: 14px;
-      display: none; align-items: center; gap: 3px;
-      background: rgba(212,175,55,.12);
-      border: 1px solid rgba(212,175,55,.3);
-      border-radius: 20px; padding: 3px 9px 3px 7px;
-    }
-    .gh-header-count i { font-size: 12px; color: #d4af37; }
-    .gh-header-count span { font-size: 12px; font-weight: 700; color: #d4af37; line-height: 1; }
-    .gh-header-count-unit { font-size: 10px !important; font-weight: 400 !important; color: #a88a30 !important; }
-
-    /* ═══════════════════════════════
-       游戏大厅布局
-    ═══════════════════════════════ */
-    .gh-search-bar {
-      padding: 9px 12px 8px; flex-shrink: 0;
-      background: #0e0e0e;
-    }
-    .gh-search-input-wrap {
-      display: flex; align-items: center; gap: 8px;
-      background: #161616; border: 1px solid #252525;
-      border-radius: 20px; padding: 7px 14px;
-      transition: border-color .2s, box-shadow .2s;
-    }
-    .gh-search-input-wrap:focus-within {
-      border-color: rgba(212,175,55,.5);
-      box-shadow: 0 0 0 3px rgba(212,175,55,.08);
-    }
-    .gh-search-input-wrap i { font-size: 15px; color: #444; flex-shrink: 0; }
-    .gh-search-input-wrap input {
-      flex: 1; background: none; border: none; outline: none;
-      font-size: 13px; color: #ccc; caret-color: #d4af37;
-    }
-    .gh-search-input-wrap input::placeholder { color: #444; }
-    .gh-search-clear {
-      font-size: 14px; color: #444; cursor: pointer;
-      display: none; flex-shrink: 0;
-      transition: color .15s;
-    }
-    .gh-search-clear:hover { color: #888; }
-    .gh-search-clear.show { display: block; }
-    #page-game.active {
-      position: fixed;
-      top: 48px; left: 0; right: 0; bottom: 52px;
-      max-width: 420px; margin: 0 auto;
-      display: flex; flex-direction: column;
-      background: #0e0e0e; z-index: 50;
-    }
-    .gh-body {
-      display: flex; flex: 1; overflow: hidden; min-height: 0;
-    }
-    .gh-sidebar {
-      width: 72px; flex-shrink: 0;
-      overflow-y: auto; -webkit-overflow-scrolling: touch;
-      min-height: 0; touch-action: pan-y;
-      background: #0a0a0a; border-right: 1px solid #1c1c1c;
-    }
-    .gh-sidebar::-webkit-scrollbar { display: none; }
-    .provider-item {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 4px; padding: 10px 4px;
-      cursor: pointer; border-left: 2px solid transparent;
-      transition: all .18s; position: relative;
-    }
-    .provider-item.active {
-      border-left-color: #d4af37;
-      background: linear-gradient(90deg, rgba(212,175,55,.18) 0%, transparent 100%);
-    }
-    .provider-logo {
-      position: relative;
-      width: 44px; height: 30px;
-      display: flex; align-items: center; justify-content: center;
-      background: #181818; border-radius: 8px; border: 1px solid #262626;
-      transition: all .18s;
-      overflow: visible;
-    }
-    .provider-item.active .provider-logo {
-      border-color: rgba(212,175,55,.55);
-      background: rgba(212,175,55,.1);
-      box-shadow: 0 0 10px rgba(212,175,55,.28);
-    }
-    /* 品牌色圆点 */
-    .provider-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      flex-shrink: 0; margin-right: 3px;
-      transition: transform .18s;
-    }
-    .provider-logo span { font-size: 9px; font-weight: 800; color: #888; transition: color .18s; }
-    .provider-item.active .provider-logo span { color: #d4af37; }
-    .provider-name { font-size: 9px; color: #888; text-align: center; line-height: 1.3; transition: color .18s; }
-    .provider-item.active .provider-name { color: #d4af37; font-weight: 600; }
-    .provider-more {
-      display: flex; flex-direction: column; align-items: center;
-      padding: 10px 4px; cursor: pointer; gap: 4px;
-    }
-    .provider-more-btn {
-      width: 34px; height: 22px; border-radius: 6px;
-      border: 1px solid #2a2a2a; background: #181818;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .provider-more-btn i { font-size: 13px; color: #555; }
-    .provider-more span { font-size: 9px; color: #555; }
-    .gh-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
-
-    .gh-tabs {
-      display: flex; gap: 0; padding: 0 10px;
-      flex-shrink: 0; border-bottom: 1px solid #1e1e1e;
-    }
-    .gh-tab {
-      padding: 9px 14px 8px; position: relative;
-      font-size: 13px; color: #666; cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: color .15s, border-color .15s;
-      display: flex; align-items: center; gap: 5px;
-      white-space: nowrap;
-    }
-    .gh-tab i { font-size: 14px; }
-    .gh-tab.active {
-      color: #d4af37; font-weight: 700;
-      border-bottom-color: #d4af37;
-    }
-    .gh-grid {
-      flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-      min-height: 0; touch-action: pan-y;
-      padding: 8px 8px 20px;
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 8px; align-content: start;
-      background: #0e0e0e;
-    }
-    .gh-grid::-webkit-scrollbar { display: none; }
-    .game-card {
-      border-radius: 12px; overflow: hidden;
-      cursor: pointer; position: relative;
-      padding-top: 133.33%;
-      box-shadow: 0 4px 12px rgba(0,0,0,.55);
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    .game-card:active {
-      transform: scale(0.94);
-      box-shadow: 0 2px 6px rgba(0,0,0,.4);
-    }
-    .game-card-inner {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; justify-content: flex-end;
-    }
-    .card-bg { position: absolute; inset: 0; background: var(--cbg); }
-    .card-art { position: absolute; inset: 0; }
-    .card-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    /* 底部渐变遮罩，让名字浮在图片上 */
-    .card-gradient {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 55%;
-      background: linear-gradient(transparent, rgba(0,0,0,.88));
-      pointer-events: none;
-    }
-    .card-fav {
-      position: absolute; top: 5px; right: 6px; z-index: 2;
-      font-size: 15px; color: rgba(255,255,255,.35); cursor: pointer;
-      transition: color .12s;
-    }
-    .card-fav:active { color: #fff; }
-    .card-fav.on { color: #ffd700; }
-    .card-name {
-      position: relative; z-index: 1;
-      text-align: center; font-size: 11px; color: #fff; font-weight: 700;
-      padding: 5px 5px 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      text-shadow: 0 1px 4px rgba(0,0,0,.8);
+    .btn-primary {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: white;
+      box-shadow: 0 12px 30px rgba(14,165,233,0.25);
     }
 
-    /* ── 卡片点击波纹光晕 ── */
-    .card-ripple {
-      position: absolute; border-radius: 50%;
-      width: 10px; height: 10px;
-      background: radial-gradient(circle, rgba(212,175,55,.7) 0%, rgba(212,175,55,0) 70%);
-      transform: translate(-50%, -50%) scale(0);
-      pointer-events: none; z-index: 10;
-      animation: cardRipple .55s ease-out forwards;
-    }
-    @keyframes cardRipple {
-      0%   { transform: translate(-50%,-50%) scale(0);   opacity: 1; }
-      100% { transform: translate(-50%,-50%) scale(22);  opacity: 0; }
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.12);
     }
 
-    /* ── 背景粒子画布 ── */
-    #gh-particles {
-      position: absolute; top: 0; left: 0;
-      pointer-events: none; z-index: 0;
-    }
-    .gh-grid { position: relative; }
+    .btn:hover { transform: translateY(-1px); }
 
-    /* 简单占位页 */
-    .placeholder-page {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; height: calc(100vh - 100px);
-      gap: 12px; color: #333;
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 22px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.32);
     }
-    .placeholder-page i { font-size: 48px; }
-    .placeholder-page p { font-size: 14px; }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .game-item {
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 120px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .game-item strong { font-size: 17px; }
+    .game-item span { font-size: 13px; opacity: 0.9; }
+
+    .g1 { background: linear-gradient(135deg, #2563eb, #38bdf8); }
+    .g2 { background: linear-gradient(135deg, #16a34a, #22c55e); }
+    .g3 { background: linear-gradient(135deg, #9333ea, #c084fc); }
+    .g4 { background: linear-gradient(135deg, #ea580c, #f59e0b); }
+
+    .section {
+      padding: 34px 0;
+    }
+
+    .section h2 {
+      font-size: 30px;
+      margin: 0 0 12px;
+    }
+
+    .section .lead {
+      color: var(--muted);
+      max-width: 760px;
+      margin: 0 0 22px;
+    }
+
+    .features, .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 22px;
+      backdrop-filter: blur(8px);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 19px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .cta {
+      margin: 28px 0 20px;
+      background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(34,197,94,0.12));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    footer {
+      padding: 22px 0 40px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-right: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .features,
+      .cards,
+      .stats,
+      .cta {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 24px;
+      }
+
+      .game-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .cta {
+        display: block;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links a {
+        margin: 0 14px 0 0;
+      }
+
+      .game-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
-
-<!-- ① 首页 Header -->
-<header class="bc-header" id="headerHome">
-  <!-- 语言选择器 -->
-  <div class="lang-btn" id="langBtn" onclick="toggleLang()">
-    <i class="ri-global-line"></i>
-    <span id="langCurrent">中文</span>
-    <i class="ri-arrow-down-s-line arrow"></i>
-  </div>
-  <!-- 语言下拉 -->
-  <div class="lang-dropdown" id="langDropdown">
-    <div class="lang-option active" onclick="selectLang('中文',this)">
-      <i class="ri-global-line"></i> 中文
-      <i class="ri-check-line check"></i>
-    </div>
-  </div>
-
-  <div class="hd-center">
-    <span class="hd-logo">开元娱乐</span>
-    <span class="hd-url">WWW.BC.VIP</span>
-  </div>
-  <div class="hd-right">
-    <button class="btn-dl">立即下载</button>
-  </div>
-</header>
-
-<!-- 非首页 Header（游戏/体育/代理/我的 共用） -->
-<header class="bc-header" id="headerOther">
-  <span class="other-title" id="otherTitle">游戏</span>
-  <div class="gh-header-count" id="gh-header-count">
-    <i class="ri-gamepad-line"></i>
-    <span id="gh-count">30</span>
-    <span class="gh-header-count-unit">款</span>
-  </div>
-</header>
-
-<!-- ② 首页内容区开始 -->
-<div id="page-home" class="bc-page active">
-
-<!-- Banner -->
-<div class="bc-banner-wrap" id="bannerWrap">
-  <div class="banner-track" id="bannerTrack">
-
-    <div class="banner-slide">
-      <div class="banner-text">
-        <div class="l1">实时返水 全新升级</div>
-        <div class="l2">VIP等级加成 · 最高返5%</div>
-        <div class="l3">稳定回血 · 极速到账</div>
+  <header>
+    <div class="container nav">
+      <div class="brand">Michael<span>Game</span></div>
+      <div class="nav-links">
+        <a href="#games">Games</a>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
       </div>
     </div>
+  </header>
 
-    <div class="banner-slide">
-      <div class="banner-text">
-        <div class="l1">首存送彩金 最高888</div>
-        <div class="l2">四方支付 · USDT · 闪电到账</div>
-        <div class="l3">安全稳定 · 7×24小时服务</div>
-      </div>
-    </div>
-
-    <div class="banner-slide">
-      <div class="banner-text">
-        <div class="l1">邀请好友 共赢佣金</div>
-        <div class="l2">每拉一人 终身5%流水分红</div>
-        <div class="l3">代理专属后台 · 实时数据</div>
-      </div>
-    </div>
-
-  </div>
-  <div class="banner-dots" id="bannerDots">
-    <div class="dot on" onclick="goSlide(0)"></div>
-    <div class="dot"    onclick="goSlide(1)"></div>
-    <div class="dot"    onclick="goSlide(2)"></div>
-  </div>
-</div>
-
-<!-- ③ 公告 -->
-<div class="bc-notice">
-  <span class="n-icon"><i class="ri-notification-2-fill"></i></span>
-  <span class="n-text">娱乐官方直营站！【BC.VIP】请认准唯一客服，谨防诈骗</span>
-  <div class="n-msg"><i class="ri-mail-fill"></i><span class="n-badge">99+</span></div>
-</div>
-
-<!-- ④ 登录/注册 + 服务入口（同一行） -->
-<div class="bc-auth-row">
-  <button class="btn-login">登录</button>
-  <div class="btn-register-wrap">
-    <span class="promo-badge"><i class="ri-gift-fill"></i>送¥88</span>
-    <button class="btn-register" onclick="location.href='register.html'">注册</button>
-  </div>
-  <div class="svc-row">
-    <div class="svc-item">
-      <div class="svc-icon"><i class="ri-map-pin-2-fill"></i></div>
-      <span class="svc-label">找到我们</span>
-    </div>
-    <div class="svc-item">
-      <div class="svc-icon"><i class="ri-customer-service-2-fill"></i></div>
-      <span class="svc-label">客服</span>
-    </div>
-    <div class="svc-item">
-      <div class="svc-icon"><i class="ri-fire-fill"></i></div>
-      <span class="svc-label">吃瓜网</span>
-    </div>
-    <div class="svc-item" onclick="openMore()">
-      <div class="svc-icon"><i class="ri-apps-2-fill"></i></div>
-      <span class="svc-label">更多</span>
-    </div>
-  </div>
-</div>
-
-<!-- ⑤ 功能模块横排（紧凑4格） -->
-<div class="bc-modules">
-  <!-- 游戏：骰子滚动 -->
-  <div class="mod-item promo">
-    <div class="mod-ico">
-      <svg viewBox="0 0 32 32" fill="none">
-        <g class="dice-body">
-          <!-- 骰子主体 -->
-          <rect x="3" y="3" width="26" height="26" rx="5" fill="#b8860b"/>
-          <rect x="3" y="3" width="26" height="26" rx="5" fill="url(#dg)" opacity=".5"/>
-          <defs>
-            <linearGradient id="dg" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fff" stop-opacity=".3"/>
-              <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <!-- 五点（骰子5面） -->
-          <circle class="dice-dot" cx="10" cy="10" r="2.5" fill="#fff"/>
-          <circle class="dice-dot" cx="22" cy="10" r="2.5" fill="#fff"/>
-          <circle class="dice-dot" cx="16" cy="16" r="2.5" fill="#fff"/>
-          <circle class="dice-dot" cx="10" cy="22" r="2.5" fill="#fff"/>
-          <circle class="dice-dot" cx="22" cy="22" r="2.5" fill="#fff"/>
-        </g>
-      </svg>
-    </div>
-    <span class="mod-name">游戏</span>
-    <span class="mod-sub">老虎机·棋牌</span>
-  </div>
-
-  <!-- 体育：足球弹跳旋转 -->
-  <div class="mod-item sports">
-    <div class="mod-ico">
-      <svg viewBox="0 0 32 32" fill="none" class="ball-spin">
-        <defs>
-          <radialGradient id="gSports" cx="38%" cy="32%" r="62%">
-            <stop offset="0%" stop-color="#e8c060"/>
-            <stop offset="100%" stop-color="#9a7010"/>
-          </radialGradient>
-        </defs>
-        <!-- 球体 -->
-        <circle cx="16" cy="16" r="12.5" fill="url(#gSports)"/>
-        <!-- 6个五边形色块（顶点均在球内），留白自然呈现六边形纹路 -->
-        <g fill="#5a3c00">
-          <!-- 中心 -->
-          <polygon points="16,11.5 19.33,13.92 18.06,17.83 13.94,17.83 12.67,13.92"/>
-          <!-- 正上 -->
-          <polygon points="16,5 18.85,7.07 17.76,10.43 14.24,10.43 13.15,7.07"/>
-          <!-- 右上 -->
-          <polygon points="23.61,10.53 26.46,12.60 25.37,15.96 21.85,15.96 20.76,12.60"/>
-          <!-- 右下 -->
-          <polygon points="20.70,19.47 23.55,21.54 22.46,24.90 18.94,24.90 17.85,21.54"/>
-          <!-- 左下 -->
-          <polygon points="11.30,19.47 14.15,21.54 13.06,24.90 9.54,24.90 8.45,21.54"/>
-          <!-- 左上 -->
-          <polygon points="8.39,10.53 11.24,12.60 10.15,15.96 6.63,15.96 5.54,12.60"/>
-        </g>
-        <!-- 球体描边 -->
-        <circle cx="16" cy="16" r="12.5" stroke="#7a5808" stroke-width="1" fill="none"/>
-      </svg>
-    </div>
-    <span class="mod-name">体育</span>
-    <span class="mod-sub">赛事·投注</span>
-  </div>
-
-  <!-- 代理：人群涟漪 -->
-  <div class="mod-item agent">
-    <div class="mod-ico">
-      <svg viewBox="0 0 32 32" fill="none">
-        <!-- ripple -->
-        <circle class="team-ripple" cx="16" cy="20" r="6" stroke="#c8961e" stroke-width="1.5" fill="none"/>
-        <!-- person left -->
-        <circle cx="11" cy="12" r="3.5" fill="#c8961e"/>
-        <path d="M5 28 C5 22 8 19.5 11 19.5 C14 19.5 17 22 17 28" fill="#c8961e"/>
-        <!-- person right (smaller, behind) -->
-        <circle cx="21" cy="13" r="3" fill="#c8961e" opacity=".75"/>
-        <path d="M15.5 28 C16 23.5 18 21.5 21 21.5 C24 21.5 27 23.5 27 28" fill="#c8961e" opacity=".75"/>
-      </svg>
-    </div>
-    <span class="mod-name">代理</span>
-    <span class="mod-sub">推广·分佣</span>
-  </div>
-
-  <!-- 充值：硬币弹入钱包 -->
-  <div class="mod-item pay">
-    <div class="mod-ico">
-      <svg viewBox="0 0 32 32" fill="none">
-        <!-- wallet body -->
-        <rect x="3" y="12" width="22" height="16" rx="3" fill="#9a7010"/>
-        <rect x="3" y="16" width="22" height="2" fill="rgba(255,255,255,.15)"/>
-        <!-- card slot on right -->
-        <rect x="20" y="14" width="9" height="10" rx="2" fill="#7a5808"/>
-        <circle cx="24.5" cy="19" r="2.5" fill="#d4af37"/>
-        <!-- coin -->
-        <g class="wallet-coin">
-          <circle cx="12" cy="8" r="4" fill="#fbbf24"/>
-          <circle cx="12" cy="8" r="2.5" fill="#f59e0b"/>
-          <rect x="11.2" y="6" width="1.6" height="4" rx=".5" fill="#fbbf24"/>
-        </g>
-      </svg>
-    </div>
-    <span class="mod-name">充值</span>
-    <span class="mod-sub">支付宝·USDT</span>
-  </div>
-</div>
-
-<!-- 「更多」全功能弹窗 -->
-<div class="more-mask" id="moreMask" onclick="closeMore()">
-  <div class="more-panel" onclick="event.stopPropagation()">
-
-    <div class="more-header">
-      <span class="more-header-title">全部功能</span>
-      <button class="more-close" onclick="closeMore()">✕</button>
-    </div>
-
-    <div class="more-section-title">资金</div>
-    <div class="more-grid funds">
-      <div class="more-item"><div class="more-badge">88%</div><div class="more-icon"><i class="ri-percent-fill"></i></div><span class="more-label">利息宝</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-bank-card-fill"></i></div><span class="more-label">存款</span><div class="more-badge gold" style="top:6px">送礼</div></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-send-plane-2-fill"></i></div><span class="more-label">提现</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-settings-4-fill"></i></div><span class="more-label">提现管理</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-bank-fill"></i></div><span class="more-label">信用借款</span></div>
-    </div>
-
-    <div class="more-section-title">福利 &amp; 活动</div>
-    <div class="more-grid bonus">
-      <div class="more-item"><div class="more-icon"><i class="ri-calendar-event-fill"></i></div><span class="more-label">活动</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-task-fill"></i></div><span class="more-label">任务</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-loop-right-fill"></i></div><span class="more-label">返水</span></div>
-      <div class="more-item"><div class="more-badge">100%</div><div class="more-icon"><i class="ri-gift-fill"></i></div><span class="more-label">待领取</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-checkbox-circle-fill"></i></div><span class="more-label">领取记录</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-safe-2-fill"></i></div><span class="more-label">公积金</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-target-fill"></i></div><span class="more-label">投注任务</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-box-3-fill"></i></div><span class="more-label">盲盒抽奖</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-donut-chart-fill"></i></div><span class="more-label">幸运转盘</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-feedback-fill"></i></div><span class="more-label">有奖反馈</span></div>
-    </div>
-
-    <div class="more-section-title">游戏 &amp; 娱乐</div>
-    <div class="more-grid games">
-      <div class="more-item"><div class="more-icon"><i class="ri-game-fill"></i></div><span class="more-label">最近游戏</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-star-fill"></i></div><span class="more-label">收藏游戏</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-play-circle-fill"></i></div><span class="more-label">免费试玩</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-compass-3-fill"></i></div><span class="more-label">发现</span></div>
-    </div>
-
-    <div class="more-section-title">账户</div>
-    <div class="more-grid account">
-      <div class="more-item"><div class="more-icon"><i class="ri-vip-crown-2-fill"></i></div><span class="more-label">VIP</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-user-settings-fill"></i></div><span class="more-label">个人资料</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-file-list-3-fill"></i></div><span class="more-label">账户明细</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-history-line"></i></div><span class="more-label">投注记录</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-bar-chart-2-fill"></i></div><span class="more-label">个人报表</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-shield-check-fill"></i></div><span class="more-label">安全中心</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-share-forward-2-fill"></i></div><span class="more-label">分享赚钱</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-share-circle-fill"></i></div><span class="more-label">立即分享</span></div>
-      <div class="more-item"><div class="more-icon"><i class="ri-smartphone-fill"></i></div><span class="more-label">APP下载</span></div>
-    </div>
-
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- ⑥ 主分类横滑 -->
-<div class="bc-main-cat">
-  <div class="main-cat-inner" id="mainCatList"></div>
-</div>
-
-<!-- ⑦ 子分类 Tag -->
-<div class="bc-sub-cat">
-  <div class="sub-inner" id="subCatList"></div>
-</div>
-
-<!-- ⑧ 视频网格（JS 渲染） -->
-<div class="bc-grid" id="videoGrid"></div>
-<!-- 加载更多 -->
-<div style="text-align:center;padding:16px 0;font-size:12px;color:#444">上拉加载更多</div>
-
-</div><!-- /page-home -->
-
-<!-- 游戏大厅页 -->
-<div id="page-game" class="bc-page">
-  <!-- 左栏 + 右内容 -->
-  <!-- 搜索栏 -->
-  <div class="gh-search-bar">
-    <div class="gh-search-input-wrap">
-      <i class="ri-search-line"></i>
-      <input type="text" id="gh-search-input" placeholder="搜索游戏…" oninput="ghSearch(this.value)" />
-      <i class="ri-close-circle-fill gh-search-clear" id="gh-search-clear" onclick="ghSearchClear()"></i>
-    </div>
-  </div>
-
-  <div class="gh-body">
-    <div class="gh-sidebar" id="gh-sidebar"></div>
-    <div class="gh-content">
-      <div class="gh-tabs">
-        <div class="gh-tab active" onclick="ghSwitchTab(this)"><i class="ri-fire-line"></i>热门</div>
-        <div class="gh-tab" onclick="ghSwitchTab(this)"><i class="ri-time-line"></i>最近</div>
-        <div class="gh-tab" onclick="ghSwitchTab(this)"><i class="ri-star-line"></i>收藏</div>
-      </div>
-      <div class="gh-grid" id="gh-grid">
-        <canvas id="gh-particles"></canvas>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 体育占位页 -->
-<div id="page-sports" class="bc-page">
-  <div class="placeholder-page">
-    <i class="ri-trophy-fill" style="color:#d4af37"></i>
-    <p style="color:#666">体育赛事模块开发中</p>
-  </div>
-</div>
-
-<!-- 活动占位页 -->
-<div id="page-promo" class="bc-page">
-  <div class="placeholder-page">
-    <i class="ri-gift-2-fill" style="color:#d4af37"></i>
-    <p style="color:#666">活动中心模块开发中</p>
-  </div>
-</div>
-
-<!-- 代理占位页 -->
-<div id="page-agent" class="bc-page">
-  <div class="placeholder-page">
-    <i class="ri-team-fill" style="color:#d4af37"></i>
-    <p style="color:#666">代理中心模块开发中</p>
-  </div>
-</div>
-
-<!-- 我的页面 -->
-<div id="page-profile" class="bc-page">
-
-  <!-- VIP 进度条 -->
-  <div class="pm-vip-bar">
-    <div class="pm-vip-badge"><span>VIP</span><b>0</b></div>
-    <div class="pm-vip-info">
-      <div class="pm-vip-title">距离 <span>VIP 1</span> 还需投注 <span>¥1,000.00</span></div>
-      <div class="pm-vip-progress"><div class="pm-vip-fill"></div></div>
-      <div class="pm-vip-sub">晋级再投注 &nbsp;0.00 / 1,000.00</div>
-    </div>
-    <i class="ri-arrow-right-s-line pm-vip-arrow"></i>
-  </div>
-
-  <!-- 用户信息卡 -->
-  <div class="pm-user-card">
-    <div class="pm-user-top">
-      <div class="pm-avatar">🎮</div>
-      <div class="pm-user-info">
-        <div class="pm-username">游客用户<i class="ri-file-copy-line"></i></div>
-        <div class="pm-uid" style="color:#555">ID：888888888 <i class="ri-file-copy-line"></i></div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-        <span style="font-size:18px">🇨🇳</span>
-        <span style="font-size:10px;color:#555">中文</span>
-      </div>
-    </div>
-    <div class="pm-balance-row">
-      <i class="ri-money-cny-circle-fill pm-balance-icon"></i>
-      <div class="pm-balance-main">
-        <div class="pm-balance-label">总余额 (CNY)</div>
-        <div class="pm-balance-num">0.00</div>
-      </div>
-      <div class="pm-balance-refresh"><i class="ri-refresh-line"></i></div>
-    </div>
-  </div>
-
-  <!-- 快捷操作 -->
-  <div class="pm-quick">
-    <div class="pm-quick-item">
-      <div class="pm-quick-icon" style="background:linear-gradient(135deg,#0d2a1a,#1a5e32)">
-        <i class="ri-arrow-up-circle-fill" style="color:#22c55e"></i>
-      </div>
-      <span class="pm-quick-label">提现</span>
-    </div>
-    <div class="pm-quick-item">
-      <span class="pm-quick-tag">送3%</span>
-      <div class="pm-quick-icon" style="background:linear-gradient(135deg,#0d1a3d,#1a3a8a)">
-        <i class="ri-bank-card-fill" style="color:#60a5fa"></i>
-      </div>
-      <span class="pm-quick-label">存款</span>
-    </div>
-    <div class="pm-quick-item">
-      <div class="pm-quick-icon" style="background:linear-gradient(135deg,#2a0d1a,#8a1a3a)">
-        <i class="ri-exchange-dollar-fill" style="color:#f472b6"></i>
-      </div>
-      <span class="pm-quick-label">转账</span>
-    </div>
-    <div class="pm-quick-item">
-      <span class="pm-quick-tag gold">VIP</span>
-      <div class="pm-quick-icon" style="background:linear-gradient(135deg,#1a1400,#3a2a00)">
-        <i class="ri-vip-crown-fill" style="color:#d4af37"></i>
-      </div>
-      <span class="pm-quick-label">VIP特权</span>
-    </div>
-  </div>
-
-  <!-- 促销横幅 -->
-  <div class="pm-promo-banner">
-    <i class="ri-wallet-3-fill"></i>
-    <div class="pm-promo-text">绑定加密钱包，充提自由 + 抽 <b>¥88,888.88</b> 大奖</div>
-    <button class="pm-promo-btn">绑定</button>
-  </div>
-
-  <!-- 账户菜单 -->
-  <div class="pm-section-title">账户管理</div>
-  <div class="pm-menu">
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#1a1a2e"><i class="ri-file-list-3-fill" style="color:#818cf8"></i></div>
-      <div class="pm-menu-body">
-        <div class="pm-menu-name">我的记录</div>
-        <div class="pm-menu-desc">投注、交易、返水明细</div>
-      </div>
-      <div class="pm-menu-right"><i class="ri-arrow-right-s-line pm-menu-arrow"></i></div>
-    </div>
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#1a1000"><i class="ri-arrow-down-circle-fill" style="color:#f59e0b"></i></div>
-      <div class="pm-menu-body">
-        <div class="pm-menu-name">提款管理</div>
-        <div class="pm-menu-desc">银行卡 · 加密钱包</div>
-      </div>
-      <div class="pm-menu-right"><i class="ri-arrow-right-s-line pm-menu-arrow"></i></div>
-    </div>
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#001a0d"><i class="ri-shield-check-fill" style="color:#22c55e"></i></div>
-      <div class="pm-menu-body">
-        <div class="pm-menu-name">安全中心</div>
-        <div class="pm-menu-desc">密码 · 手机 · 验证</div>
-      </div>
-      <div class="pm-menu-right"><i class="ri-arrow-right-s-line pm-menu-arrow"></i></div>
-    </div>
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#0d0d1a"><i class="ri-smartphone-fill" style="color:#a78bfa"></i></div>
-      <div class="pm-menu-body">
-        <div class="pm-menu-name">登录设备</div>
-        <div class="pm-menu-desc">管理已登录设备</div>
-      </div>
-      <div class="pm-menu-right"><i class="ri-arrow-right-s-line pm-menu-arrow"></i></div>
-    </div>
-  </div>
-
-  <!-- 推广菜单 -->
-  <div class="pm-section-title">赚钱 & 推广</div>
-  <div class="pm-menu">
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#1a0d00"><i class="ri-share-fill" style="color:#fb923c"></i></div>
-      <div class="pm-menu-body">
-        <div class="pm-menu-name">邀请好友</div>
-      </div>
-      <div class="pm-menu-right">
-        <span class="pm-menu-value hot">月入百万</span>
-        <i class="ri-arrow-right-s-line pm-menu-arrow"></i>
-      </div>
-    </div>
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#00101a"><i class="ri-team-fill" style="color:#38bdf8"></i></div>
-      <div class="pm-menu-body">
-        <div class="pm-menu-name">合作联营</div>
-      </div>
-      <div class="pm-menu-right">
-        <span class="pm-menu-value green">你占 80~90%</span>
-        <i class="ri-arrow-right-s-line pm-menu-arrow"></i>
-      </div>
-    </div>
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#1a0a1a"><i class="ri-gift-fill" style="color:#e879f9"></i></div>
-      <div class="pm-menu-body">
-        <div class="pm-menu-name">优惠活动</div>
-      </div>
-      <div class="pm-menu-right"><i class="ri-arrow-right-s-line pm-menu-arrow"></i></div>
-    </div>
-  </div>
-
-  <!-- 帮助菜单 -->
-  <div class="pm-section-title">帮助 & 支持</div>
-  <div class="pm-menu">
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#001a1a"><i class="ri-customer-service-2-fill" style="color:#2dd4bf"></i></div>
-      <div class="pm-menu-body"><div class="pm-menu-name">在线客服</div></div>
-      <div class="pm-menu-right"><i class="ri-arrow-right-s-line pm-menu-arrow"></i></div>
-    </div>
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#0d1a00"><i class="ri-question-fill" style="color:#84cc16"></i></div>
-      <div class="pm-menu-body"><div class="pm-menu-name">常见问题</div></div>
-      <div class="pm-menu-right"><i class="ri-arrow-right-s-line pm-menu-arrow"></i></div>
-    </div>
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#1a0d00"><i class="ri-map-pin-2-fill" style="color:#fb923c"></i></div>
-      <div class="pm-menu-body">
-        <div class="pm-menu-name">找到我们</div>
-        <div class="pm-menu-desc">防止打不开</div>
-      </div>
-      <div class="pm-menu-right"><i class="ri-arrow-right-s-line pm-menu-arrow"></i></div>
-    </div>
-    <div class="pm-menu-item">
-      <div class="pm-menu-icon" style="background:#1a001a"><i class="ri-feedback-fill" style="color:#f472b6"></i></div>
-      <div class="pm-menu-body"><div class="pm-menu-name">有奖反馈</div></div>
-      <div class="pm-menu-right"><i class="ri-arrow-right-s-line pm-menu-arrow"></i></div>
-    </div>
-  </div>
-
-  <!-- 退出 -->
-  <div class="pm-logout">
-    <i class="ri-logout-circle-r-line"></i>
-    <span>安全退出</span>
-  </div>
-
-</div>
-
-<!-- Tabbar -->
-<nav class="bc-tabbar">
-  <div class="tab-item active" onclick="switchPage('home',this)"><span class="tab-icon"><i class="ri-home-5-fill"></i></span><span>首页</span></div>
-  <div class="tab-item" onclick="switchPage('game',this)">
-    <span class="tab-icon">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-        <rect x="2" y="2" width="20" height="20" rx="4"/>
-        <circle cx="8"  cy="8"  r="1.8" fill="#111"/>
-        <circle cx="16" cy="8"  r="1.8" fill="#111"/>
-        <circle cx="12" cy="12" r="1.8" fill="#111"/>
-        <circle cx="8"  cy="16" r="1.8" fill="#111"/>
-        <circle cx="16" cy="16" r="1.8" fill="#111"/>
-      </svg>
-    </span>
-    <span>游戏</span>
-  </div>
-  <div class="tab-item" onclick="switchPage('sports',this)">
-    <span class="tab-icon">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-        <!-- 球体 -->
-        <circle cx="12" cy="12" r="9.5" fill="currentColor"/>
-        <!-- 复用模块卡片的五边形坐标，通过 transform 缩放至 24x24 -->
-        <g fill="#111" transform="translate(12,12) scale(0.76) translate(-16,-16)">
-          <polygon points="16,11.5 19.33,13.92 18.06,17.83 13.94,17.83 12.67,13.92"/>
-          <polygon points="16,5 18.85,7.07 17.76,10.43 14.24,10.43 13.15,7.07"/>
-          <polygon points="23.61,10.53 26.46,12.60 25.37,15.96 21.85,15.96 20.76,12.60"/>
-          <polygon points="20.70,19.47 23.55,21.54 22.46,24.90 18.94,24.90 17.85,21.54"/>
-          <polygon points="11.30,19.47 14.15,21.54 13.06,24.90 9.54,24.90 8.45,21.54"/>
-          <polygon points="8.39,10.53 11.24,12.60 10.15,15.96 6.63,15.96 5.54,12.60"/>
-        </g>
-        <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="0.7" fill="none" opacity=".35"/>
-      </svg>
-    </span>
-    <span>体育</span>
-  </div>
-  <div class="tab-item" onclick="switchPage('promo',this)">
-    <span class="tab-icon"><i class="ri-gift-2-fill"></i></span>
-    <span>活动</span>
-  </div>
-  <div class="tab-item" onclick="switchPage('agent',this)"><span class="tab-icon"><i class="ri-team-fill"></i></span><span>代理</span></div>
-  <div class="tab-item" onclick="switchPage('profile',this)"><span class="tab-icon"><i class="ri-user-fill"></i></span><span>我的</span></div>
-</nav>
-
-<script>
-const cats = {
-  '🔥推荐':   ['热门推荐','今日更新','高清精选','字幕专区'],
-  '国产二区': ['偷情约炮','真实偷拍','高潮喷水','强奸迷奸','户外露出','SM调教','情趣内衣','精选探花'],
-  '黑料曝光': ['网曝门事件','校园猛料','网红流出','明星黑料','裸贷肉偿','婚闹恶俗','抓奸名场面','男同女同'],
-  '制服诱惑': ['JK少女','黑丝白丝','女仆','cosplay','OL制服','旗袍','空姐制服','护士医生'],
-  '国产一区': ['学生少女','技师风采','熟女少妇','国产热播','反差母狗','美脚丝足','情侣自拍','私房俱乐部'],
-  '伦理之爱': ['禁忌母子','兄弟姐妹','爱上嫂子','狂操小姨','换夫换妻','淫荡儿媳','爷爷奶奶','伦理精选'],
-  '直播':     ['啪啪直播','学生直播','自慰诱惑','乱伦直播','户外勾搭','车震直播','国产AV','网红主播'],
-  '欧美':     ['欧美精选','户外搭讪','美女自慰','成人剧情','黑人大屌','群P大作战','欧美重口'],
-  '重口猎奇': ['人兽性交','SM性虐','人妖伪娘','孕妇内射','吃屎喝尿','扩阴拳交','阳具巨物'],
-  '日本':     ['日本中文','无码流出','FC2','HEYZO','东京热','一本道','人妻斩'],
-  '动漫':     ['3D动漫','同人动漫','剧情故事'],
-}
-
-let cur = '🔥推荐'
-
-function renderMain() {
-  document.getElementById('mainCatList').innerHTML =
-    Object.keys(cats).map(k =>
-      `<div class="m-cat${k===cur?' active':''}" onclick="selectMain('${k}')">${k}</div>`
-    ).join('')
-}
-function renderSub() {
-  const subs = cats[cur] || []
-  document.getElementById('subCatList').innerHTML =
-    subs.map((s,i) =>
-      `<div class="s-tag${i===0?' active':''}" onclick="selectSub(this)">${s}</div>`
-    ).join('')
-}
-function selectMain(k) { cur = k; renderMain(); renderSub(); }
-function selectSub(el) {
-  document.querySelectorAll('.s-tag').forEach(t => t.classList.remove('active'))
-  el.classList.add('active')
-}
-
-renderMain(); renderSub();
-
-/* ── Banner 轮播 ── */
-let bannerIdx = 0;
-const track  = document.getElementById('bannerTrack');
-const dots   = document.querySelectorAll('#bannerDots .dot');
-
-function goSlide(n) {
-  bannerIdx = (n + 3) % 3;
-  track.style.transform = `translateX(-${bannerIdx * 100}%)`;
-  dots.forEach((d, i) => d.classList.toggle('on', i === bannerIdx));
-}
-
-let autoTimer = setInterval(() => goSlide(bannerIdx + 1), 3000);
-
-let startX = 0, dragging = false;
-const wrap = document.getElementById('bannerWrap');
-
-function swipeStart(x) {
-  startX = x;
-  dragging = true;
-  clearInterval(autoTimer);
-  track.style.transition = 'none';
-}
-function swipeEnd(x) {
-  if (!dragging) return;
-  dragging = false;
-  track.style.transition = 'transform .4s cubic-bezier(.4,0,.2,1)';
-  const dx = x - startX;
-  if (Math.abs(dx) > 30) goSlide(dx < 0 ? bannerIdx + 1 : bannerIdx - 1);
-  else goSlide(bannerIdx);
-  autoTimer = setInterval(() => goSlide(bannerIdx + 1), 3000);
-}
-
-// Touch 事件（Chrome 设备模拟 / 真机）
-wrap.addEventListener('touchstart', e => swipeStart(e.touches[0].clientX),        { passive: true });
-wrap.addEventListener('touchend',   e => swipeEnd(e.changedTouches[0].clientX));
-wrap.addEventListener('touchcancel',() => { dragging = false; track.style.transition = 'transform .4s cubic-bezier(.4,0,.2,1)'; goSlide(bannerIdx); });
-
-// Mouse 事件（桌面浏览器直接拖）
-wrap.addEventListener('mousedown', e => swipeStart(e.clientX));
-document.addEventListener('mouseup', e => { if (dragging) swipeEnd(e.clientX); });
-
-/* ── 视频列表数据 ── */
-const videos = [
-  { title: '清纯邻家女孩约会记录，全程超甜蜜', dur: '23:14', views: '18.6万', bg: 'linear-gradient(145deg,#3d1a2e,#7a2040,#c44068)' },
-  { title: '办公室OL下班后的秘密生活', dur: '31:05', views: '12.3万', bg: 'linear-gradient(145deg,#1a2a3d,#204a7a,#3b82c4)' },
-  { title: '旅行途中偶遇的浪漫邂逅', dur: '18:42', views: '9.8万',  bg: 'linear-gradient(145deg,#1a3d2a,#207a4a,#38c47a)' },
-  { title: '网红博主私下生活真实记录片段', dur: '45:20', views: '33.1万', bg: 'linear-gradient(145deg,#3d2a1a,#7a4a20,#c47a38)' },
-  { title: '大学校园里的青春故事', dur: '12:08', views: '7.2万',  bg: 'linear-gradient(145deg,#2a1a3d,#4a207a,#7a38c4)' },
-  { title: '瑜伽教练私教课花絮记录', dur: '28:33', views: '21.5万', bg: 'linear-gradient(145deg,#3d1a1a,#7a2020,#c44040)' },
-  { title: '深夜便利店打工妹下班后', dur: '16:55', views: '5.4万',  bg: 'linear-gradient(145deg,#1a3a3d,#206a7a,#38b4c4)' },
-  { title: '模特私拍花絮·幕后完整版', dur: '38:12', views: '44.7万', bg: 'linear-gradient(145deg,#3a3d1a,#6a7a20,#a4c438)' },
-  { title: '健身教练的课后时光', dur: '22:06', views: '15.9万', bg: 'linear-gradient(145deg,#3d1a35,#7a2070,#c438b4)' },
-  { title: '民宿老板娘的日常vlog番外篇', dur: '09:48', views: '6.1万',  bg: 'linear-gradient(145deg,#1a2a1a,#304a30,#508050)' },
-  { title: '婚纱摄影师偷拍的精彩瞬间', dur: '55:30', views: '88.2万', bg: 'linear-gradient(145deg,#3d3a1a,#7a7020,#c4b438)' },
-  { title: '酒吧驻唱歌手散场后花絮', dur: '14:17', views: '11.0万', bg: 'linear-gradient(145deg,#1a1a3d,#20207a,#3838c4)' },
-];
-
-function renderVideos() {
-  document.getElementById('videoGrid').innerHTML = videos.map(v => `
-    <div class="v-card">
-      <div class="v-thumb" style="--thumb-bg:${v.bg}">
-        <div class="v-thumb-bg"></div>
-        <div class="v-thumb-overlay"></div>
-        <div class="v-play"><i class="ri-play-fill"></i></div>
-        <span class="v-dur">${v.dur}</span>
-      </div>
-      <div class="v-info">
-        <div class="v-title">${v.title}</div>
-        <div class="v-meta"><i class="ri-eye-line"></i><span>${v.views}</span></div>
-      </div>
-    </div>
-  `).join('');
-}
-renderVideos();
-
-/* ── 语言选择器 ── */
-function toggleLang() {
-  const btn = document.getElementById('langBtn');
-  const dd  = document.getElementById('langDropdown');
-  btn.classList.toggle('open');
-  dd.classList.toggle('show');
-}
-function selectLang(name, el) {
-  document.getElementById('langCurrent').textContent = name;
-  document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('langBtn').classList.remove('open');
-  document.getElementById('langDropdown').classList.remove('show');
-}
-document.addEventListener('click', e => {
-  if (!e.target.closest('#langBtn') && !e.target.closest('#langDropdown')) {
-    document.getElementById('langBtn').classList.remove('open');
-    document.getElementById('langDropdown').classList.remove('show');
-  }
-});
-
-function openMore() {
-  document.getElementById('moreMask').classList.add('show')
-  document.body.style.overflow = 'hidden'
-}
-function closeMore() {
-  document.getElementById('moreMask').classList.remove('show')
-  document.body.style.overflow = ''
-}
-
-/* ═══════════════════════════════
-   多 Tab 页面切换
-═══════════════════════════════ */
-const PAGE_MAP = {
-  home:    { page:'page-home',    title:'',    header:'home' },
-  game:    { page:'page-game',    title:'游戏', header:'other' },
-  sports:  { page:'page-sports',  title:'体育', header:'other' },
-  promo:   { page:'page-promo',   title:'活动', header:'other' },
-  agent:   { page:'page-agent',   title:'代理', header:'other' },
-  profile: { page:'page-profile', title:'我的', header:'other' },
-};
-
-function switchPage(name, tabEl) {
-  const cfg = PAGE_MAP[name];
-  // 隐藏所有 page
-  document.querySelectorAll('.bc-page').forEach(p => p.classList.remove('active'));
-  document.getElementById(cfg.page).classList.add('active');
-  // 切换 header
-  const hHome  = document.getElementById('headerHome');
-  const hOther = document.getElementById('headerOther');
-  if (cfg.header === 'home') {
-    hHome.style.display  = '';
-    hOther.classList.remove('active');
-  } else {
-    hHome.style.display  = 'none';
-    hOther.classList.add('active');
-    document.getElementById('otherTitle').textContent = cfg.title;
-    // 游戏数量角标仅在游戏页显示
-    const ghCount = document.getElementById('gh-header-count');
-    if (ghCount) ghCount.style.display = (name === 'game') ? 'flex' : 'none';
-  }
-  // 滚动控制：操作 html 而非 body，避免 iOS 拦截 fixed 子元素滚动
-  document.documentElement.style.overflow = (name === 'home') ? '' : 'hidden';
-  document.body.style.paddingBottom = (name === 'home') ? '60px' : '0';
-  // tabbar 高亮
-  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-  if (tabEl) tabEl.classList.add('active');
-  // 首次进入游戏页渲染
-  if (name === 'game' && !window._ghInited) { ghInit(); window._ghInited = true; }
-}
-
-/* ═══════════════════════════════
-   游戏大厅逻辑
-═══════════════════════════════ */
-const GH_PROVIDERS = [
-  { id:'all',  label:'全部',   color:'#d4af37' },
-  { id:'pg',   label:'PG',    color:'#22c55e' },
-  { id:'mg',   label:'MG',    color:'#3b82f6' },
-  { id:'cq9',  label:'CQ9',   color:'#f59e0b' },
-  { id:'lg',   label:'LG',    color:'#8b5cf6' },
-  { id:'wg',   label:'WG',    color:'#06b6d4' },
-  { id:'sexy', label:'Sexy\nSlot', color:'#ec4899' },
-  { id:'pp',   label:'PP',    color:'#f97316' },
-  { id:'nlc',  label:'NLC',   color:'#a78bfa' },
-  { id:'bbin', label:'BBIN',  color:'#ef4444' },
-  { id:'jdb',  label:'JDB',   color:'#eab308' },
-  { id:'pa',   label:'PA',    color:'#10b981' },
-  { id:'ka',   label:'KA',    color:'#f43f5e' },
-];
-const GH_GAMES = [
-  { name:'麻将胡了',  bg:'linear-gradient(135deg,#1a3a1a,#2d7a2d)', pid:'pg',  hot:980 },
-  { name:'麻将胡了2', bg:'linear-gradient(135deg,#1a3a1a,#4d9e4d)', pid:'pg',  hot:870 },
-  { name:'发财锦鲤',  bg:'linear-gradient(135deg,#3d1a0a,#c0451a)', pid:'pg',  hot:760 },
-  { name:'寻宝黄金城',bg:'linear-gradient(135deg,#1a1a3d,#3d3d9e)', pid:'pg',  hot:640 },
-  { name:'爱尔兰精灵',bg:'linear-gradient(135deg,#0a2a0a,#1a7a1a)', pid:'pg',  hot:590 },
-  { name:'糖果派对',  bg:'linear-gradient(135deg,#3d0a2a,#9e1a6a)', pid:'mg',  hot:520 },
-  { name:'赏金女王',  bg:'linear-gradient(135deg,#2a1a3d,#6a3a9e)', pid:'pg',  hot:480 },
-  { name:'赏金大对决',bg:'linear-gradient(135deg,#2a1a0a,#9e5a1a)', pid:'pg',  hot:430 },
-  { name:'冰雪大冲关',bg:'linear-gradient(135deg,#0a1a3d,#1a4a9e)', pid:'pg',  hot:390 },
-  { name:'赏金船长',  bg:'linear-gradient(135deg,#1a1a0a,#5a5a1a)', pid:'pg',  hot:350 },
-  { name:'夜醉佳人',  bg:'linear-gradient(135deg,#2a0a3d,#7a1a9e)', pid:'pg',  hot:310 },
-  { name:'疯赌过山车',bg:'linear-gradient(135deg,#3d0a0a,#9e1a1a)', pid:'pg',  hot:270 },
-  { name:'绝地大逃杀',bg:'linear-gradient(135deg,#1a2a0a,#4a7a1a)', pid:'pg',  hot:230 },
-  { name:'神鹰宝石',  bg:'linear-gradient(135deg,#0a1a3d,#1a3a7a)', pid:'pg',  hot:200 },
-  { name:'双囍临门',  bg:'linear-gradient(135deg,#3d1a0a,#9e4a0a)', pid:'pg',  hot:180 },
-  { name:'财富招财猫',bg:'linear-gradient(135deg,#2a2a0a,#7a7a0a)', pid:'pg',  hot:160 },
-  { name:'龙珠传说',  bg:'linear-gradient(135deg,#3d0a0a,#9e2a0a)', pid:'mg',  hot:850 },
-  { name:'黄金矿工',  bg:'linear-gradient(135deg,#2a1a0a,#8a6a0a)', pid:'cq9', hot:730 },
-  { name:'水浒传',    bg:'linear-gradient(135deg,#0a2a3d,#1a6a9e)', pid:'pg',  hot:140 },
-  { name:'福运象来',  bg:'linear-gradient(135deg,#1a3d0a,#3a9e2a)', pid:'pg',  hot:120 },
-  { name:'幸运宝石',  bg:'linear-gradient(135deg,#3d2a0a,#9e7a1a)', pid:'pp',  hot:680 },
-  { name:'热带探险',  bg:'linear-gradient(135deg,#0a3d1a,#1a9e4a)', pid:'pp',  hot:540 },
-  { name:'极速赛车',  bg:'linear-gradient(135deg,#3d0a1a,#9e1a3a)', pid:'pg',  hot:100 },
-  { name:'海盗船长',  bg:'linear-gradient(135deg,#0a1a2a,#1a3a5a)', pid:'mg',  hot:460 },
-  { name:'金鸡报喜',  bg:'linear-gradient(135deg,#3d2a0a,#c09a20)', pid:'pg',  hot: 90 },
-  { name:'西游记',    bg:'linear-gradient(135deg,#1a0a3d,#4a1a9e)', pid:'cq9', hot:610 },
-  { name:'招财进宝',  bg:'linear-gradient(135deg,#2a3d0a,#6a9e1a)', pid:'pg',  hot: 80 },
-  { name:'雷霆万钧',  bg:'linear-gradient(135deg,#1a1a3d,#3a3a9e)', pid:'jdb', hot:790 },
-  { name:'狂野西部',  bg:'linear-gradient(135deg,#3d1a0a,#9e4a0a)', pid:'jdb', hot:420 },
-  { name:'宝石猎人',  bg:'linear-gradient(135deg,#0a2a3d,#1a6a9e)', pid:'pg',  hot: 70 },
-];
-let ghCurProvider = 'all';
-
-function ghInit() {
-  ghRenderSidebar();
-  ghRenderGames();
-}
-function ghRenderSidebar() {
-  document.getElementById('gh-sidebar').innerHTML =
-    GH_PROVIDERS.map(p => {
-      const isActive = p.id === ghCurProvider;
-      return `
-      <div class="provider-item${isActive ? ' active' : ''}"
-           onclick="ghSelectProvider('${p.id}')">
-        <div class="provider-logo">
-          <div class="provider-dot" style="background:${p.color}"></div>
-          <span>${p.label.split('\n')[0]}</span>
-        </div>
-        <div class="provider-name">${p.label.replace('\n','<br>')}</div>
-      </div>`;
-    }).join('') +
-    `<div class="provider-more">
-       <div class="provider-more-btn"><i class="ri-arrow-down-s-line"></i></div>
-       <span>更多</span>
-     </div>`;
-}
-function ghSelectProvider(id) {
-  ghCurProvider = id;
-  // 切换厂商时清空搜索
-  const input = document.getElementById('gh-search-input');
-  if (input && input.value) {
-    input.value = '';
-    document.getElementById('gh-search-clear').classList.remove('show');
-  }
-  ghRenderSidebar();
-  ghRenderGames();
-}
-function ghRenderGames(list) {
-  const games = list || (ghCurProvider === 'all' ? [...GH_GAMES] : GH_GAMES.filter(g => g.pid === ghCurProvider));
-  const grid = document.getElementById('gh-grid');
-  grid.innerHTML =
-    `<canvas id="gh-particles"></canvas>` +
-    games.map(g => `
-      <div class="game-card" onpointerdown="ghCardRipple(event,this)">
-        <div class="game-card-inner">
-          <div class="card-bg" style="background:${g.bg}"></div>
-          <div class="card-art"><img src="https://static.mini.game/icon/game1/100/WhackAMole.webp" alt="${g.name}" loading="lazy"></div>
-          <div class="card-gradient"></div>
-          <i class="ri-star-line card-fav" onclick="ghToggleFav(this)"></i>
-          <div class="card-name">${g.name}</div>
+  <main>
+    <section class="container hero">
+      <div>
+        <div class="eyebrow">Simple mini games · Fast play · Web platform</div>
+        <h1>Play fun mini games anytime, anywhere.</h1>
+        <p>
+          Michael Game is a lightweight online mini game platform built for casual players.
+          Enjoy quick gameplay, smooth access, and simple account-based features on web and mobile.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#games">Explore Games</a>
+          <a class="btn btn-secondary" href="#contact">Contact Us</a>
         </div>
       </div>
-    `).join('');
-  document.getElementById('gh-count').textContent = games.length;
-  ghInitParticles();
-}
-function ghSearch(val) {
-  const clear = document.getElementById('gh-search-clear');
-  clear.classList.toggle('show', val.length > 0);
-  const base = ghCurProvider === 'all' ? [...GH_GAMES] : GH_GAMES.filter(g => g.pid === ghCurProvider);
-  const keyword = val.trim().toLowerCase();
-  const result = keyword ? base.filter(g => g.name.toLowerCase().includes(keyword)) : base;
-  ghRenderGames(result);
-}
-function ghSearchClear() {
-  const input = document.getElementById('gh-search-input');
-  input.value = '';
-  document.getElementById('gh-search-clear').classList.remove('show');
-  ghRenderGames();
-}
-function ghSwitchTab(el) {
-  document.querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-}
-function ghToggleFav(el) {
-  const on = el.classList.toggle('on');
-  el.className = on ? 'ri-star-fill card-fav on' : 'ri-star-line card-fav';
-}
 
-/* ══════════════════════════════════
-   卡片点击波纹光晕
-══════════════════════════════════ */
-function ghCardRipple(e, card) {
-  const rect = card.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const ripple = document.createElement('span');
-  ripple.className = 'card-ripple';
-  ripple.style.left = x + 'px';
-  ripple.style.top  = y + 'px';
-  card.appendChild(ripple);
-  ripple.addEventListener('animationend', () => ripple.remove());
-}
+      <div class="hero-card">
+        <div class="game-grid">
+          <div class="game-item g1">
+            <strong>Speed Tap</strong>
+            <span>Fast reflex arcade</span>
+          </div>
+          <div class="game-item g2">
+            <strong>Block Match</strong>
+            <span>Easy puzzle gameplay</span>
+          </div>
+          <div class="game-item g3">
+            <strong>Jump Dash</strong>
+            <span>Simple action challenge</span>
+          </div>
+          <div class="game-item g4">
+            <strong>Lucky Spin</strong>
+            <span>Casual reward mode</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-/* ══════════════════════════════════
-   背景漂浮粒子系统
-══════════════════════════════════ */
-let ghParticleRAF = null;
-const GH_PARTICLE_COUNT = 18;
+    <section class="container section" id="features">
+      <h2>Why players choose Michael Game</h2>
+      <p class="lead">
+        Built for quick sessions and easy access, our platform focuses on lightweight entertainment,
+        clean design, and simple user experiences.
+      </p>
+      <div class="features">
+        <div class="card">
+          <h3>Quick Start</h3>
+          <p>Players can enter and enjoy mini games with a fast, streamlined experience across devices.</p>
+        </div>
+        <div class="card">
+          <h3>Casual Gameplay</h3>
+          <p>Our platform is designed for short, fun sessions that are easy to understand and enjoyable to replay.</p>
+        </div>
+        <div class="card">
+          <h3>Account Features</h3>
+          <p>Support for sign-up, login, password reset, and account notifications for registered users.</p>
+        </div>
+      </div>
+    </section>
 
-function ghInitParticles() {
-  if (ghParticleRAF) { cancelAnimationFrame(ghParticleRAF); ghParticleRAF = null; }
-  const canvas = document.getElementById('gh-particles');
-  if (!canvas) return;
-  const grid = document.getElementById('gh-grid');
+    <section class="container section" id="games">
+      <h2>Game Categories</h2>
+      <p class="lead">
+        Michael Game focuses on lightweight online games suitable for quick entertainment and casual user engagement.
+      </p>
+      <div class="cards">
+        <div class="card">
+          <h3>Arcade Games</h3>
+          <p>Fast-paced mini games designed for reflex, speed, and instant replay value.</p>
+        </div>
+        <div class="card">
+          <h3>Puzzle Games</h3>
+          <p>Simple but engaging game mechanics for players who enjoy matching, logic, and strategy.</p>
+        </div>
+        <div class="card">
+          <h3>Reward-Based Casual Play</h3>
+          <p>Game modes built around short interactions, daily return sessions, and user retention flows.</p>
+        </div>
+      </div>
+    </section>
 
-  // 让 canvas 铺满 grid 滚动区域（用 grid 的 scrollHeight）
-  function resize() {
-    canvas.width  = grid.clientWidth;
-    canvas.height = grid.scrollHeight || grid.clientHeight;
-  }
-  resize();
+    <section class="container section" id="about">
+      <h2>Platform Overview</h2>
+      <p class="lead">
+        Michael Game is currently focused on delivering accessible web-based mini games with modern UI,
+        casual play patterns, and user-friendly platform features.
+      </p>
+      <div class="stats">
+        <div class="stat">
+          <strong>Web</strong>
+          <span>Cross-device access</span>
+        </div>
+        <div class="stat">
+          <strong>Fast</strong>
+          <span>Lightweight pages</span>
+        </div>
+        <div class="stat">
+          <strong>Mini</strong>
+          <span>Short session games</span>
+        </div>
+        <div class="stat">
+          <strong>24/7</strong>
+          <span>Online availability</span>
+        </div>
+      </div>
+    </section>
 
-  const ctx = canvas.getContext('2d');
-  // 粒子定义：随机位置、大小、速度、透明度
-  const particles = Array.from({ length: GH_PARTICLE_COUNT }, () => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 1.6 + 0.4,           // 半径 0.4~2px
-    vx: (Math.random() - 0.5) * 0.3,
-    vy: (Math.random() - 0.5) * 0.25,
-    alpha: Math.random() * 0.35 + 0.08,     // 透明度极低，若隐若现
-    color: Math.random() > 0.5 ? '212,175,55' : '255,255,255',
-    pulse: Math.random() * Math.PI * 2,     // 呼吸相位
-  }));
+    <section class="container">
+      <div class="cta" id="contact">
+        <div>
+          <h2 style="margin:0 0 10px;">Contact Michael Game</h2>
+          <p style="margin:0; color: var(--muted);">
+            For platform inquiries, partnerships, or support, contact us at <strong>admin@michaelgame.vip</strong>.
+          </p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:admin@michaelgame.vip">Email Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const now = performance.now() / 1000;
-    particles.forEach(p => {
-      // 呼吸效果：透明度轻微起伏
-      const breathAlpha = p.alpha * (0.7 + 0.3 * Math.sin(now * 0.8 + p.pulse));
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${p.color},${breathAlpha.toFixed(2)})`;
-      ctx.fill();
-      // 缓慢漂移
-      p.x += p.vx;
-      p.y += p.vy;
-      // 边界环绕
-      if (p.x < 0) p.x = canvas.width;
-      if (p.x > canvas.width) p.x = 0;
-      if (p.y < 0) p.y = canvas.height;
-      if (p.y > canvas.height) p.y = 0;
-    });
-    ghParticleRAF = requestAnimationFrame(draw);
-  }
-  draw();
-
-  // 切换页面时停止粒子
-  const observer = new MutationObserver(() => {
-    if (!document.getElementById('page-game').classList.contains('active')) {
-      cancelAnimationFrame(ghParticleRAF);
-      ghParticleRAF = null;
-      observer.disconnect();
-    }
-  });
-  observer.observe(document.getElementById('page-game'), { attributes: true, attributeFilter: ['class'] });
-}
-
-
-</script>
+  <footer>
+    <div class="container">
+      <div style="margin-bottom: 10px;">© 2026 Michael Game. All rights reserved.</div>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="mailto:admin@michaelgame.vip">Contact</a>
+    </div>
+  </footer>
 </body>
 </html>
